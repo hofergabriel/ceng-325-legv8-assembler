@@ -7,6 +7,7 @@ Date: 11/16/2020
 
 class Assembler: 
   def __init__(self):
+    slef.FLAGS = {}
     self.instr2opcode = {
         "FMULS" : ['R', "00011110001"], 
         "FDIVS" : ['R', "00011110001"], 
@@ -30,6 +31,7 @@ if __name__ == "__main__":
   assembler = Assembler()
   while(True):
     print(assembler.asm2obj(input()))
+
 
 
 
