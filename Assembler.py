@@ -81,6 +81,9 @@ class Assembler:
 
         }
 
+  """
+    list of tokens --> binary 
+  """
   def R(self,line): pass
   def I(self,line): pass
   def D(self,line): pass
@@ -88,8 +91,19 @@ class Assembler:
   def CB(self,line): pass
   def IW(self,line): pass
 
+  """
+    whole instruction string --> binary
+    determines which type of instruction 
+  """
   def asm2obj(self, line):
     line=re.split(",| ", line)
+    fmt = self.instr2opcode[line[0]][0]
+    if fmt == 'R': self.R(line)
+    else if fmt == 'I': self.I(line)
+    else if fmt == 'D': self.D(line)
+    else if fmt == 'B': self.B(line)
+    else if fmt == 'CB': self.CB(line)
+    else self.IW(line)
 
     print(self.instr2opcode[line[0]][1])
     return str(line)
