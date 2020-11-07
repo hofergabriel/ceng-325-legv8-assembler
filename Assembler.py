@@ -19,6 +19,8 @@ class Assembler:
   def __init__(self):
     self.FLAGS = {}
     self.instr2opcode = {
+        'B'      : ['B', '000101'],
+
         'FMULS'  : ['R', '00011110001', '000010'], 
         'FDIVS'  : ['R', '00011110001', '000110'], 
         'FCMPS'  : ['R', '00011110001', '001000'],
@@ -50,6 +52,7 @@ class Assembler:
         'UMULH'  : ['R', '10011011110']
         'ORR'    : ['R', '10101010000']
         'ADDS'   : ['R', '10101011000']
+
         'ADDIS'  : ['I']
         'ORRI'   : ['I']
 
@@ -57,8 +60,10 @@ class Assembler:
         'CBNZ'   : ['CB']
         'STURW'  : ['D']
         'LDURSW' : ['D']
+
         'STURS'  : ['R', '10111100000']
         'LDURS'  : ['R', '10111100010']
+
         'STXR'   : ['D']
         'LDXR'   : ['D']
         'EOR'    : ['R', '11001010000']
