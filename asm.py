@@ -38,11 +38,18 @@ class Assembler:
   def I(self,line): 
     ret = self.i2o[line[0]][1] + ' ' + \
         str(bin(int(line[3][1:]))[2:]).zfill(12) + ' ' + \
-        str(bin(int(line[2][1:]))[2:]).zfill(12) + ' ' + \
-        str(bin(int(line[1][1:]))[2:]).zfill(12) + ' ' 
+        str(bin(int(line[2][1:]))[2:]).zfill(5) + ' ' + \
+        str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' 
     return ret
 
-  def D(self,line): pass
+  def D(self,line): 
+    ret = self.i2o[line[0]][1] + ' ' + \
+        str(bin(int(line[2][1:]))[2:]).zfill(9) + ' ' + \
+        "00" + \
+        str(bin(int(line[3][1:]))[2:]).zfill(5) + ' ' + \
+        str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' 
+    return ret
+
   def B(self,line): pass
   def CB(self,line): pass
   def IW(self,line): pass
@@ -51,7 +58,7 @@ class Assembler:
   """ whole instruction string --> binary
       determines which type of instruction """
   def asm2obj(self, line):
-    line=list(filter(lambda i : i!='', re.split(",| |\n", line)))
+    line=list(filter(lambda i : i!='', re.split(",| |\[|\]|\n", line)))
     print(line)
     fmt = self.i2o[line[0]][0]
     if fmt == 'R': ret=self.R(line)
