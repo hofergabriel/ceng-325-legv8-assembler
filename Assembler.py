@@ -18,10 +18,13 @@ Assembler
 self.FLAGS: flags register
 """
 class Assembler: 
+
+  """ open json file """
   def __init__(self,filename):
     self.FLAGS = {}
     print("filename: "+filename)
-    self.i2o = json.load(filename)
+    f=open(filename)
+    self.i2o = json.load(f)
 
   """ list of tokens --> binary """
   def R(self,line): pass
@@ -47,7 +50,6 @@ class Assembler:
     return str(line)
 
 
-
 """ Entry point """
 def main():
   print("sys.argv: "+str(sys.argv))
@@ -58,7 +60,6 @@ def main():
 
 """ call main """
 main()
-
 
 
 
