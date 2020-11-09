@@ -6,8 +6,10 @@ Date: 11/16/2020
 """
 import re
 
-
-
+"""
+check this shit out:
+https://www.geeksforgeeks.org/convert-json-to-dictionary-in-python/
+"""
 
 """
 Assembler
