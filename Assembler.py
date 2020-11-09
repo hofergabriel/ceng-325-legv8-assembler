@@ -27,7 +27,21 @@ class Assembler:
     self.i2o = json.load(f)
 
   """ list of tokens --> binary """
-  def R(self,line): pass
+  def R(self,line): 
+    ret = self.i2o[line[0]][1] + ' ' + \
+        str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' + \
+        self.i2o[line[0]][2] + ' ' + \
+        str(bin(int(line[2][1:]))[2:]).zfill(5) + ' ' + \
+        str(bin(int(line[3][1:]))[2:]).zfill(5)
+    return ret
+
+#    print(self.i2o[line[0]][1],end=' ')
+#    print(str(bin(int(line[1][1:]))[2:]).zfill(5), end=' ')
+#    print(self.i2o[line[0]][2],end=' ')
+#    print(str(bin(int(line[2][1:]))[2:]).zfill(5), end=' ')
+#    print(str(bin(int(line[3][1:]))[2:]).zfill(5), end=' ')
+#    print("\n\n\n")
+
   def I(self,line): pass
   def D(self,line): pass
   def B(self,line): pass
@@ -37,17 +51,17 @@ class Assembler:
   """ whole instruction string --> binary
       determines which type of instruction """
   def asm2obj(self, line):
-    line=re.split(",| ", line)
+    line=list(filter(lambda i : i!='', re.split(",| |\n", line)))
+    print(line)
     fmt = self.i2o[line[0]][0]
-    if fmt == 'R': self.R(line)
-    elif fmt == 'I': self.I(line)
-    elif fmt == 'D': self.D(line)
-    elif fmt == 'B': self.B(line)
-    elif fmt == 'CB': self.CB(line)
-    else: self.IW(line)
+    if fmt == 'R': ret=self.R(line)
+    elif fmt == 'I': ret=self.I(line)
+    elif fmt == 'D': ret=self.D(line)
+    elif fmt == 'B': ret=self.B(line)
+    elif fmt == 'CB': ret=self.CB(line)
+    else: ret=self.IW(line)
+    return ret
 
-    print(self.i2o[line[0]][1])
-    return str(line)
 
 
 """ Entry point """
