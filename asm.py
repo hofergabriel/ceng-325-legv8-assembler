@@ -29,17 +29,24 @@ class Assembler:
   """ list of tokens --> binary """
   def R(self,line): 
     ret = self.i2o[line[0]][1] + ' ' + \
-        str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' + \
+        str(bin(int(line[3][1:]))[2:]).zfill(5) + ' ' + \
         self.i2o[line[0]][2] + ' ' + \
         str(bin(int(line[2][1:]))[2:]).zfill(5) + ' ' + \
-        str(bin(int(line[3][1:]))[2:]).zfill(5)
+        str(bin(int(line[1][1:]))[2:]).zfill(5)
     return ret
 
-  def I(self,line): pass
+  def I(self,line): 
+    ret = self.i2o[line[0]][1] + ' ' + \
+        str(bin(int(line[3][1:]))[2:]).zfill(12) + ' ' + \
+        str(bin(int(line[2][1:]))[2:]).zfill(12) + ' ' + \
+        str(bin(int(line[1][1:]))[2:]).zfill(12) + ' ' 
+    return ret
+
   def D(self,line): pass
   def B(self,line): pass
   def CB(self,line): pass
   def IW(self,line): pass
+
 
   """ whole instruction string --> binary
       determines which type of instruction """
