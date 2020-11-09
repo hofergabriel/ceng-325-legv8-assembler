@@ -35,13 +35,6 @@ class Assembler:
         str(bin(int(line[3][1:]))[2:]).zfill(5)
     return ret
 
-#    print(self.i2o[line[0]][1],end=' ')
-#    print(str(bin(int(line[1][1:]))[2:]).zfill(5), end=' ')
-#    print(self.i2o[line[0]][2],end=' ')
-#    print(str(bin(int(line[2][1:]))[2:]).zfill(5), end=' ')
-#    print(str(bin(int(line[3][1:]))[2:]).zfill(5), end=' ')
-#    print("\n\n\n")
-
   def I(self,line): pass
   def D(self,line): pass
   def B(self,line): pass
@@ -61,8 +54,6 @@ class Assembler:
     elif fmt == 'CB': ret=self.CB(line)
     else: ret=self.IW(line)
     return ret
-
-
 
 """ Entry point """
 def main():
