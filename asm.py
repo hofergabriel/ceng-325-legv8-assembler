@@ -50,7 +50,11 @@ class Assembler:
         str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' 
     return ret
 
-  def B(self,line): pass
+  def B(self,line): 
+    ret = self.i2o[line[0]][1] + ' ' + \
+        str(bin(int(line[1][1:]))[2:]).zfill(26)
+    return ret
+
   def CB(self,line): pass
   def IW(self,line): pass
 
