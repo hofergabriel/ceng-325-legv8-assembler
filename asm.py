@@ -62,15 +62,16 @@ class Assembler:
       determines which type of instruction """
   def asm2obj(self, line):
     line=list(filter(lambda i : i!='', re.split(",| |\[|\]|\n", line)))
+
     print(line)
+
     fmt = self.i2o[line[0]][0]
-    if fmt == 'R': ret=self.R(line)
-    elif fmt == 'I': ret=self.I(line)
-    elif fmt == 'D': ret=self.D(line)
-    elif fmt == 'B': ret=self.B(line)
-    elif fmt == 'CB': ret=self.CB(line)
-    else: ret=self.IW(line)
-    return ret
+    if fmt == 'R':    return self.R(line)
+    elif fmt == 'I':  return self.I(line)
+    elif fmt == 'D':  return self.D(line)
+    elif fmt == 'B':  return self.B(line)
+    elif fmt == 'CB': return self.CB(line)
+    else:             return self.IW(line)
 
 """ Entry point """
 def main():
