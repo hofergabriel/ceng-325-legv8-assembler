@@ -1,1 +1,2 @@
 MOVK X9, 255, LSL 0
+quit
