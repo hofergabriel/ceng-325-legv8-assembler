@@ -62,12 +62,16 @@ class Assembler:
         self.imm2bits(line[2]).zfill(19) + \
         str(bin(int(line[1][1:]))[2:]).zfill(5)
 
-  # -- TODO -- 
   def IW(self,line): 
     return self.i2o[line[0]][1] + \
         str(bin(int(line[4])//16)[2:]).zfill(2) + \
         self.imm2bits(line[2]).zfill(16) + \
         str(bin(int(line[1][1:]))[2:]).zfill(5) 
+
+  def B_COND(self,line):
+    return self.i2o["B.cond"][1] + \
+        self.imm2bits(line[1]).zfill(19) + \
+        self.b_cond[line[0]]
 
   """ whole instruction string --> binary
       determines which type of instruction """
@@ -75,9 +79,11 @@ class Assembler:
     line=list(filter(lambda i : i!='', re.split(",| |\[|\]|\n", line)))
 
     print(line)
-    if(line[0][0]=='B'): line[0]="B.cond"
+
+    if(line[0][0:2]=='B.'): 
+      return self.B_COND(line)
+
     fmt = self.i2o[line[0]][0]
-    print("fmt: "+fmt)
     if fmt == 'R':    return self.R(line)
     elif fmt == 'I':  return self.I(line)
     elif fmt == 'D':  return self.D(line)
@@ -85,13 +91,14 @@ class Assembler:
     elif fmt == 'CB': return self.CB(line)
     else:             return self.IW(line)
 
+
+
 """ puts spaces in the string every four bits """
 def nibbles(s):
   ret=""
   for i in range(len(s)):
     ret+=s[i]
-    if (i+1)%4==0:
-      ret+=' '
+    if (i+1)%4==0: ret+=' '
   return ret
 
 """ Entry point """
