@@ -47,7 +47,7 @@ class Assembler:
   def D(self,line): 
     return self.i2o[line[0]][1] + \
         str(bin(int(line[3][1:]))[2:]).zfill(9) + \
-        " 00 " + \
+        "00" + \
         str(bin(int(line[2][1:]))[2:]).zfill(5) + \
         str(bin(int(line[1][1:]))[2:]).zfill(5) 
 
@@ -75,7 +75,9 @@ class Assembler:
     line=list(filter(lambda i : i!='', re.split(",| |\[|\]|\n", line)))
 
     print(line)
+    if(line[0][0]=='B'): line[0]="B.cond"
     fmt = self.i2o[line[0]][0]
+    print("fmt: "+fmt)
     if fmt == 'R':    return self.R(line)
     elif fmt == 'I':  return self.I(line)
     elif fmt == 'D':  return self.D(line)
