@@ -1,1 +1,2 @@
 ADDI X9, X9, #1
+quit

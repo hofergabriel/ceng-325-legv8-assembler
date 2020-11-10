@@ -22,41 +22,40 @@ class Assembler:
   """ open json file """
   def __init__(self,filename):
     self.FLAGS = {}
-    print("filename: "+filename)
-    f=open(filename)
-    self.i2o = json.load(f)
+    self.i2o = json.load(open(filename))
 
   """ list of tokens --> binary """
   def R(self,line): 
-    ret = self.i2o[line[0]][1] + ' ' + \
+    return self.i2o[line[0]][1] + ' ' + \
         str(bin(int(line[3][1:]))[2:]).zfill(5) + ' ' + \
         self.i2o[line[0]][2] + ' ' + \
         str(bin(int(line[2][1:]))[2:]).zfill(5) + ' ' + \
         str(bin(int(line[1][1:]))[2:]).zfill(5)
-    return ret
 
   def I(self,line): 
-    ret = self.i2o[line[0]][1] + ' ' + \
+    return self.i2o[line[0]][1] + ' ' + \
         str(bin(int(line[3][1:]))[2:]).zfill(12) + ' ' + \
         str(bin(int(line[2][1:]))[2:]).zfill(5) + ' ' + \
         str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' 
-    return ret
 
   def D(self,line): 
-    ret = self.i2o[line[0]][1] + ' ' + \
+    return self.i2o[line[0]][1] + ' ' + \
         str(bin(int(line[2][1:]))[2:]).zfill(9) + ' ' + \
         "00" + \
         str(bin(int(line[3][1:]))[2:]).zfill(5) + ' ' + \
         str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' 
-    return ret
 
   def B(self,line): 
-    ret = self.i2o[line[0]][1] + ' ' + \
+    return self.i2o[line[0]][1] + ' ' + \
         str(bin(int(line[1][1:]))[2:]).zfill(26)
-    return ret
 
-  def CB(self,line): pass
-  def IW(self,line): pass
+  def CB(self,line): 
+    return self.i2o[line[0]][1] + ' ' + \
+        str(bin(int(line[1][1:]))[2:]).zfill(19) + ' ' + \
+        str(bin(int(line[2][1:]))[2:]).zfill(5)
+
+  def IW(self,line): 
+    return self.i2o[line[0]][1] + ' ';
 
 
   """ whole instruction string --> binary
@@ -75,11 +74,11 @@ class Assembler:
 
 """ Entry point """
 def main():
-  print("sys.argv: "+str(sys.argv))
   assembler = Assembler(sys.argv[1])
-  print("this is the Assembler!")
   while(True):
-    print(assembler.asm2obj(input()))
+    s=input()
+    if s=="quit": break
+    print(assembler.asm2obj(s))
 
 """ call main """
 main()
