@@ -24,7 +24,10 @@ class Assembler:
     self.FLAGS = {}
     self.i2o = json.load(open(filename))
 
-  def imm2str(): pass
+  def imm2bits(self,word): 
+    if word[0]=='#' : return str(bin(int(word[1:]))[2:])
+    return str(bin(int(word,16))[2:])
+
 
   """ list of tokens --> binary """
   def R(self,line): 
@@ -52,15 +55,17 @@ class Assembler:
         str(bin(int(line[1][1:]))[2:]).zfill(26)
 
   def CB(self,line): 
+    #str(bin(int(line[2],16))[2:]).zfill(19) + ' ' + \
     return self.i2o[line[0]][1] + ' ' + \
-        "--" + ' ' + \
-        str(bin(int(line[1][1:]))[2:]).zfill(19) + ' ' + \
-        str(bin(int(line[2][1:]))[2:]).zfill(5)
+        "--" + \
+        self.imm2bits(line[2]).zfill(19) + ' ' + \
+        str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' 
 
   def IW(self,line): 
-    print("255: "+ str(int(line[2])))
+    #str(bin(int(line[2],16))[2:]).zfill(16) + ' ' + \
     return self.i2o[line[0]][1] + ' ' + \
-        str(int(line[2]))).zfill(16) + ' ' \
+        "--" + \
+        self.imm2bits(line[2]).zfill(16) + ' ' + \
         str(bin(int(line[1][1:]))[2:]).zfill(5) + ' ' 
 
   """ whole instruction string --> binary
