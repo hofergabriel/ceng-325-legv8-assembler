@@ -33,40 +33,38 @@ class Assembler:
   """ list of tokens --> binary """
   def R(self,line): 
     return self.i2o[line[0]][1] + \
-        str(bin(int(line[3][1:]))[2:]).zfill(5) + \
+        bin(int(line[3][1:]))[2:].zfill(5) + \
         self.i2o[line[0]][2] + \
-        str(bin(int(line[2][1:]))[2:]).zfill(5) + \
-        str(bin(int(line[1][1:]))[2:]).zfill(5)
+        bin(int(line[2][1:]))[2:].zfill(5) + \
+        bin(int(line[1][1:]))[2:].zfill(5)
 
   def I(self,line): 
     return self.i2o[line[0]][1] + \
-        str(bin(int(line[3][1:]))[2:]).zfill(12) + \
-        str(bin(int(line[2][1:]))[2:]).zfill(5) +  \
-        str(bin(int(line[1][1:]))[2:]).zfill(5)   
+        bin(int(line[3][1:]))[2:].zfill(12) + \
+        bin(int(line[2][1:]))[2:].zfill(5) +  \
+        bin(int(line[1][1:]))[2:].zfill(5)   
 
   def D(self,line): 
     return self.i2o[line[0]][1] + \
-        str(bin(int(line[3][1:]))[2:]).zfill(9) + \
+        bin(int(line[3][1:]))[2:].zfill(9) + \
         "00" + \
-        str(bin(int(line[2][1:]))[2:]).zfill(5) + \
-        str(bin(int(line[1][1:]))[2:]).zfill(5) 
+        bin(int(line[2][1:]))[2:].zfill(5) + \
+        bin(int(line[1][1:]))[2:].zfill(5) 
 
   def B(self,line): 
     return self.i2o[line[0]][1] + \
-        str(bin(int(line[1][1:]))[2:]).zfill(26)
+        bin(int(line[1][1:]))[2:].zfill(26)
 
-  # -- TODO -- 
   def CB(self,line): 
-    #str(bin(int(line[2],16))[2:]).zfill(19) + ' ' + \
     return self.i2o[line[0]][1] + \
         self.imm2bits(line[2]).zfill(19) + \
-        str(bin(int(line[1][1:]))[2:]).zfill(5)
+        bin(int(line[1][1:]))[2:].zfill(5)
 
   def IW(self,line): 
     return self.i2o[line[0]][1] + \
-        str(bin(int(line[4])//16)[2:]).zfill(2) + \
+        bin(int(line[4])//16)[2:].zfill(2) + \
         self.imm2bits(line[2]).zfill(16) + \
-        str(bin(int(line[1][1:]))[2:]).zfill(5) 
+        bin(int(line[1][1:]))[2:].zfill(5) 
 
   def B_COND(self,line):
     return self.i2o["B.cond"][1] + \
@@ -77,12 +75,9 @@ class Assembler:
       determines which type of instruction """
   def asm2obj(self, line):
     line=list(filter(lambda i : i!='', re.split(",| |\[|\]|\n", line)))
-
     print(line)
-
     if(line[0][0:2]=='B.'): 
       return self.B_COND(line)
-
     fmt = self.i2o[line[0]][0]
     if fmt == 'R':    return self.R(line)
     elif fmt == 'I':  return self.I(line)
