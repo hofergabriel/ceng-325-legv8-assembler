@@ -7,6 +7,7 @@ Date: 11/16/2020
 import re
 import json
 import sys
+import string
 
 """
 Assembler
@@ -30,7 +31,7 @@ class Assembler:
     if word[0]=='B' : return self.b_cond[word]
     else: return '-'
 
-  """ list of tokens --> binary """
+  """ R-type Instructions """
   def R(self,line): 
     return self.i2o[line[0]][1] + \
         bin(int(line[3][1:]))[2:].zfill(5) + \
@@ -38,12 +39,14 @@ class Assembler:
         bin(int(line[2][1:]))[2:].zfill(5) + \
         bin(int(line[1][1:]))[2:].zfill(5)
 
+  """ I-type Instructions """
   def I(self,line): 
     return self.i2o[line[0]][1] + \
         bin(int(line[3][1:]))[2:].zfill(12) + \
         bin(int(line[2][1:]))[2:].zfill(5) +  \
         bin(int(line[1][1:]))[2:].zfill(5)   
 
+  """ D-type Instructions """
   def D(self,line): 
     return self.i2o[line[0]][1] + \
         bin(int(line[3][1:]))[2:].zfill(9) + \
@@ -51,27 +54,31 @@ class Assembler:
         bin(int(line[2][1:]))[2:].zfill(5) + \
         bin(int(line[1][1:]))[2:].zfill(5) 
 
+  """ B-type Instructions """
   def B(self,line): 
     return self.i2o[line[0]][1] + \
         self.imm2bits(line[1]).zfill(26)
 
+  """ CB-type Instructions """
   def CB(self,line): 
     return self.i2o[line[0]][1] + \
         self.imm2bits(line[2]).zfill(19) + \
         bin(int(line[1][1:]))[2:].zfill(5)
 
+  """ IM-type Instructions """
   def IW(self,line): 
     return self.i2o[line[0]][1] + \
         bin(int(line[4])//16)[2:].zfill(2) + \
         self.imm2bits(line[2]).zfill(16) + \
         bin(int(line[1][1:]))[2:].zfill(5) 
 
+  """ B.cond-type Instructions """
   def B_COND(self,line):
     return self.i2o["B.cond"][1] + \
         self.imm2bits(line[1]).zfill(19) + \
         self.b_cond[line[0]]
 
-  """ Pseudo Instructions """
+  """ Pseudo-Instructions """
   def PSEUDO(self,line):
     if(line[0]=="CMP"): 
       return "11101011000" + \
@@ -93,9 +100,13 @@ class Assembler:
         "000000" + \
         bin(int(line[1][1:]))[2:].zfill(5) 
 
-  """ BR instruction """
-  def BR(self,line): pass
-
+  """ special case BR instruction """
+  def BR(self,line): 
+    return "11010110000" + \
+        "00000" + "000000" + \
+        bin(int(line[1][1:]))[2:].zfill(5) + \
+        "00000"
+    
   """ whole instruction string --> binary
       determines which type of instruction """
   def asm2obj(self, line):
@@ -125,10 +136,19 @@ def nibbles(s):
 """ Entry point """
 def main():
   assembler = Assembler(sys.argv[1],sys.argv[2])
+  if(len(sys.argv)==4):
+    f=open(sys.argv[3],'r')
+    Lines = f.readlines()
+    print(Lines)
+    for L in Lines:
+      if L.strip()=="quit": return
+      print(nibbles(assembler.asm2obj(L)))
+    return
   while(True):
-    s=input("> ")
-    if s=="quit": break
-    print(nibbles(assembler.asm2obj(s)))
+    L=input("> ")
+    if L=="quit": return
+    print(nibbles(assembler.asm2obj(L)))
+  return 
 
 """ call main """
 main()
