@@ -110,7 +110,6 @@ class Assembler:
       determines which type of instruction """
   def asm2obj(self, line):
     line=list(filter(lambda i : i!='', re.split(",| |\[|\]|\n", line)))
-    print(line)
     if(line[0][0:2]=='B.'): 
       return self.B_COND(line)
     if( line[0]=="CMP" or line[0]=="CMPI" or line[0]=="LDA" or line[0]=="MOV" ):
@@ -142,13 +141,13 @@ def main():
     for L in Lines:
       if L.strip()=="quit": return
       print(nibbles(assembler.asm2obj(L)))
-      print(hex(int(assembler.asm2obj(L),2)))
+      print(hex(int(assembler.asm2obj(L),2))[2:].upper())
     return
   while(True):
     L=input("> ")
     if L=="quit": return
     print(nibbles(assembler.asm2obj(L)))
-    print(hex(int(assembler.asm2obj(L),2)))
+    print(hex(int(assembler.asm2obj(L),2))[2:].upper())
   return 
 
 """ call main """
