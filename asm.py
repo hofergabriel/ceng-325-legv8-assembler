@@ -11,7 +11,6 @@ import string
 
 """
 Assembler
-self.FLAGS: flags register
 """
 class Assembler: 
 
@@ -143,11 +142,13 @@ def main():
     for L in Lines:
       if L.strip()=="quit": return
       print(nibbles(assembler.asm2obj(L)))
+      print(hex(int(assembler.asm2obj(L),2)))
     return
   while(True):
     L=input("> ")
     if L=="quit": return
     print(nibbles(assembler.asm2obj(L)))
+    print(hex(int(assembler.asm2obj(L),2)))
   return 
 
 """ call main """
