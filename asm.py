@@ -64,12 +64,38 @@ class Assembler:
     return self.i2o[line[0]][1] + \
         bin(int(line[4])//16)[2:].zfill(2) + \
         self.imm2bits(line[2]).zfill(16) + \
-        bin(int(line[1][1:]))[2:].zfill(5) 
+        bin(int(line[1][1:]))[2:].zfill(5)
 
   def B_COND(self,line):
     return self.i2o["B.cond"][1] + \
         self.imm2bits(line[1]).zfill(19) + \
         self.b_cond[line[0]]
+
+
+
+
+  def PSEUDO(self,line):
+    if(line[0]=="CMP"): 
+      return "11101011000" + \
+          bin(int(line[2][1:]))[2:].zfill(5) + \
+          "000000" + \
+          bin(int(line[1][1:]))[2:].zfill(5) + \
+          "011111"
+    if(line[0]=="CMPI"): 
+      return "1111000100" + \
+          self.imm2bits(line[2]).zfill(12) + \
+          bin(int(line[2][1:]))[2:].zfill(5) + \
+          bin(int(line[1][1:]))[2:].zfill(5) 
+    #if(line[0]=="LDA"): pass
+
+    if(line[0]=="MOV"): 
+      return "10101010000" + \
+        bin(int(line[2][1:]))[2:].zfill(5) + \
+        "011111" + \
+        "000000" + \
+        bin(int(line[1][1:]))[2:].zfill(5) 
+
+  def BR(self,line): pass
 
   """ whole instruction string --> binary
       determines which type of instruction """
@@ -78,6 +104,9 @@ class Assembler:
     print(line)
     if(line[0][0:2]=='B.'): 
       return self.B_COND(line)
+    if( line[0]=="CMP" or line[0]=="CMPI" or line[0]=="LDA" or line[0]=="MOV" ):
+      return self.PSEUDO(self,line)
+    if(line[0]=="BR"): return self.BR(line)
     fmt = self.i2o[line[0]][0]
     if fmt == 'R':    return self.R(line)
     elif fmt == 'I':  return self.I(line)
@@ -98,7 +127,7 @@ def nibbles(s):
 def main():
   assembler = Assembler(sys.argv[1],sys.argv[2])
   while(True):
-    s=input()
+    s=input("> ")
     if s=="quit": break
     print(nibbles(assembler.asm2obj(s)))
 
