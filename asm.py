@@ -52,7 +52,6 @@ class Assembler:
         bin(int(line[1][1:]))[2:].zfill(5) 
 
   def B(self,line): 
-    #bin(int(line[1][1:]))[2:].zfill(26)
     return self.i2o[line[0]][1] + \
         self.imm2bits(line[1]).zfill(26)
 
